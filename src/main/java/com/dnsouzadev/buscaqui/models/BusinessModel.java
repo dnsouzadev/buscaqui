@@ -30,4 +30,11 @@ public class BusinessModel {
     @ManyToOne
     private CategoryModel category;
 
+    public BusinessModel(String name, String address, String phone, Double deliveryFee, CategoryModel category) {
+        this.name = name;
+        this.address = address;
+        this.phone = phone;
+        this.deliveryFee = deliveryFee;
+        this.category = category;
+    }
 }

@@ -8,9 +8,6 @@ import java.util.Objects;
 
 @Entity
 @Data
-@RequiredArgsConstructor
-@NoArgsConstructor
-@AllArgsConstructor
 public class CategoryModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,4 +16,10 @@ public class CategoryModel {
     @Column(nullable = false, unique = true)
     private String name;
 
+    public CategoryModel(String name) {
+        this.name = name;
+    }
+
+    public CategoryModel() {
+    }
 }

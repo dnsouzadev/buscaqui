@@ -1,5 +1,6 @@
 package com.dnsouzadev.buscaqui.controllers;
 
+import com.dnsouzadev.buscaqui.dtos.BusinessDtos.SaveBusinessDto;
 import com.dnsouzadev.buscaqui.models.BusinessModel;
 import com.dnsouzadev.buscaqui.services.BusinessService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,7 @@ public class BusinessController {
     }
 
     @PostMapping
-    public BusinessModel saveBusiness(@RequestBody BusinessModel business) {
+    public BusinessModel saveBusiness(@RequestBody SaveBusinessDto business) {
         return service.saveBusiness(business);
     }
 }

@@ -1,5 +1,6 @@
 package com.dnsouzadev.buscaqui.controllers;
 
+import com.dnsouzadev.buscaqui.dtos.CategoryDtos.SaveCategoryDto;
 import com.dnsouzadev.buscaqui.models.CategoryModel;
 import com.dnsouzadev.buscaqui.services.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,7 @@ public class CategoryController {
     }
 
     @PostMapping
-    public CategoryModel saveCategory(@RequestBody CategoryModel category) {
+    public CategoryModel saveCategory(@RequestBody SaveCategoryDto category) {
         return service.saveCategory(category);
     }
 }
