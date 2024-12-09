@@ -17,6 +17,8 @@ public class CategoryService {
     private CategoryRepository repository;
 
     public List<CategoryModel> getAllCategories() {
+        System.out.println("CategoryService.getAllCategories");
+        System.out.println(repository.findAll());
         return repository.findAll();
     }
 
