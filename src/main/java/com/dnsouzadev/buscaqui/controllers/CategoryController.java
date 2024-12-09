@@ -1,5 +1,6 @@
 package com.dnsouzadev.buscaqui.controllers;
 
+import com.dnsouzadev.buscaqui.dtos.CategoryDtos.CategoryDto;
 import com.dnsouzadev.buscaqui.dtos.CategoryDtos.SaveCategoryDto;
 import com.dnsouzadev.buscaqui.models.CategoryModel;
 import com.dnsouzadev.buscaqui.services.CategoryService;
@@ -16,7 +17,7 @@ public class CategoryController {
     private CategoryService service;
 
     @GetMapping
-    public List<CategoryModel> getAllCategories() {
+    public List<CategoryDto> getAllCategories() {
         return service.getAllCategories();
     }
 

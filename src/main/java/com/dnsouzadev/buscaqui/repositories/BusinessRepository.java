@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface BusinessRepository extends JpaRepository<BusinessModel, Long> {
+    BusinessModel findByName(String name);
 }
