@@ -30,4 +30,32 @@ public class ProductService {
                 .orElseThrow(() -> new RuntimeException("Business not found"));
         return repository.save(ProductMapper.toModel(product, business));
     }
+
+    public ProductDto getProductById(Long id) {
+        return repository.findById(id).map(ProductMapper::toDto).orElseThrow(() -> new RuntimeException("Product not found"));
+    }
+
+    public ProductDto getProductByName(String name) {
+        return repository.findByName(name).map(ProductMapper::toDto).orElseThrow(() -> new RuntimeException("Product not found"));
+    }
+
+    public ProductModel updateProduct(Long id, SaveProductDto product) {
+        ProductModel productModel = repository.findById(id).orElseThrow(() -> new RuntimeException("Product not found"));
+        BusinessModel business = businessRepository.findById(product.businessId())
+                .orElseThrow(() -> new RuntimeException("Business not found"));
+        productModel.setName(product.name());
+        productModel.setPrice(product.price());
+        productModel.setBusiness(business);
+        return repository.save(productModel);
+    }
+
+    public boolean deleteProduct(Long id) {
+        if (repository.existsById(id)) {
+            repository.deleteById(id);
+            return true;
+        }
+        return false;
+    }
+
+
 }

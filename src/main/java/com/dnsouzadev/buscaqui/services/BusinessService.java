@@ -45,4 +45,24 @@ public class BusinessService {
         }
         return BusinessMapper.toDto(business);
     }
+
+    public BusinessModel updateBusiness(Long id, SaveBusinessDto business) {
+        CategoryModel category = categoryRepository.findByName(business.category())
+                .orElseThrow(() -> new RuntimeException("Category not found: " + business.category()));
+        BusinessModel model = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Business not found: " + id));
+        model.setName(business.name());
+        model.setAddress(business.address());
+        model.setPhone(business.phone());
+        model.setDeliveryFee(business.deliveryFee());
+        model.setCategory(category);
+        return repository.save(model);
+    }
+
+    public boolean deleteBusiness(Long id) {
+        BusinessModel model = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Business not found: " + id));
+        repository.delete(model);
+        return true;
+    }
 }

@@ -24,4 +24,26 @@ public class CategoryService {
     public CategoryModel saveCategory(SaveCategoryDto category) {
         return repository.save(CategoryMapper.toModel(category));
     }
+
+    public CategoryDto getCategoryById(Long id) {
+        return repository.findById(id).map(CategoryMapper::toDto).orElseThrow(() -> new RuntimeException("Category not found"));
+    }
+
+    public CategoryDto getCategoryByName(String name) {
+        return repository.findByName(name).map(CategoryMapper::toDto).orElseThrow(() -> new RuntimeException("Category not found"));
+    }
+
+    public CategoryModel updateCategory(Long id, SaveCategoryDto category) {
+        CategoryModel categoryModel = repository.findById(id).orElseThrow(() -> new RuntimeException("Category not found"));
+        categoryModel.setName(category.name());
+        return repository.save(categoryModel);
+    }
+
+    public boolean deleteCategory(Long id) {
+        if (repository.existsById(id)) {
+            repository.deleteById(id);
+            return true;
+        }
+        return false;
+    }
 }

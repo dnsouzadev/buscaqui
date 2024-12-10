@@ -41,5 +41,22 @@ public class BusinessController {
         }
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<BusinessDto> updateBusiness(@PathVariable Long id, @RequestBody SaveBusinessDto business) {
+        BusinessModel model = service.updateBusiness(id, business);
+        if (model != null) {
+            return ResponseEntity.ok(service.getBusinessById(id));
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteBusiness(@PathVariable Long id) {
+        if (service.deleteBusiness(id)) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.notFound().build();
+    }
+
 }
 
