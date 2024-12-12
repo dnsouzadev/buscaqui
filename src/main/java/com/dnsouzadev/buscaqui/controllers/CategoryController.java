@@ -6,6 +6,7 @@ import com.dnsouzadev.buscaqui.dtos.CategoryDtos.SaveCategoryDto;
 import com.dnsouzadev.buscaqui.mapper.CategoryMapper;
 import com.dnsouzadev.buscaqui.models.CategoryModel;
 import com.dnsouzadev.buscaqui.services.CategoryService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +26,7 @@ public class CategoryController {
     }
 
     @PostMapping
-    public CategoryModel saveCategory(@RequestBody SaveCategoryDto category) {
+    public CategoryModel saveCategory(@RequestBody @Valid SaveCategoryDto category) {
         return service.saveCategory(category);
     }
 
@@ -44,7 +45,7 @@ public class CategoryController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CategoryDto> updateCategory(@PathVariable Long id, @RequestBody SaveCategoryDto category) {
+    public ResponseEntity<CategoryDto> updateCategory(@PathVariable Long id, @RequestBody @Valid SaveCategoryDto category) {
         CategoryModel categoryModel = service.updateCategory(id, category);
         if (categoryModel != null) {
             return ResponseEntity.ok(CategoryMapper.toDto(categoryModel));

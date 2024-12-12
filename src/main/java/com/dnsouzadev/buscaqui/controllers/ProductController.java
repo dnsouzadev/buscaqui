@@ -8,6 +8,7 @@ import com.dnsouzadev.buscaqui.mapper.CategoryMapper;
 import com.dnsouzadev.buscaqui.models.CategoryModel;
 import com.dnsouzadev.buscaqui.models.ProductModel;
 import com.dnsouzadev.buscaqui.services.ProductService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,7 +28,7 @@ public class ProductController {
     }
 
     @PostMapping
-    public ProductModel saveProduct(@RequestBody SaveProductDto product) {
+    public ProductModel saveProduct(@RequestBody @Valid SaveProductDto product) {
         return service.saveProduct(product);
     }
 
@@ -46,7 +47,7 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ProductModel> updateProduct(@PathVariable Long id, @RequestBody SaveProductDto product) {
+    public ResponseEntity<ProductModel> updateProduct(@PathVariable Long id, @RequestBody @Valid SaveProductDto product) {
         return ResponseEntity.ok(service.updateProduct(id, product));
     }
 

@@ -4,6 +4,7 @@ import com.dnsouzadev.buscaqui.dtos.BusinessDtos.BusinessDto;
 import com.dnsouzadev.buscaqui.dtos.BusinessDtos.SaveBusinessDto;
 import com.dnsouzadev.buscaqui.models.BusinessModel;
 import com.dnsouzadev.buscaqui.services.BusinessService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +24,7 @@ public class BusinessController {
     }
 
     @PostMapping
-    public BusinessModel saveBusiness(@RequestBody SaveBusinessDto business) {
+    public BusinessModel saveBusiness(@RequestBody @Valid SaveBusinessDto business) {
         return service.saveBusiness(business);
     }
 
@@ -42,7 +43,7 @@ public class BusinessController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<BusinessDto> updateBusiness(@PathVariable Long id, @RequestBody SaveBusinessDto business) {
+    public ResponseEntity<BusinessDto> updateBusiness(@PathVariable Long id, @RequestBody @Valid SaveBusinessDto business) {
         BusinessModel model = service.updateBusiness(id, business);
         if (model != null) {
             return ResponseEntity.ok(service.getBusinessById(id));

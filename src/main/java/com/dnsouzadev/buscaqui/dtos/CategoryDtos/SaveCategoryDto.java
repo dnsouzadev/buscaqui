@@ -1,4 +1,6 @@
 package com.dnsouzadev.buscaqui.dtos.CategoryDtos;
 
-public record SaveCategoryDto(String name) {
+import jakarta.validation.constraints.NotBlank;
+
+public record SaveCategoryDto(@NotBlank String name) {
 }
