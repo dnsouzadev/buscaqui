@@ -6,6 +6,8 @@ import com.dnsouzadev.buscaqui.models.BusinessModel;
 import com.dnsouzadev.buscaqui.services.BusinessService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,8 +21,8 @@ public class BusinessController {
     private BusinessService service;
 
     @GetMapping
-    public List<BusinessDto> getAllBusinesses() {
-        return service.getAllBusinesses();
+    public Page<BusinessDto> getAllBusinesses(Pageable pageable) {
+        return service.getAllBusinesses(pageable);
     }
 
     @PostMapping

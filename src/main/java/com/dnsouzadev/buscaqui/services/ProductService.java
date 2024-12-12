@@ -8,6 +8,8 @@ import com.dnsouzadev.buscaqui.models.ProductModel;
 import com.dnsouzadev.buscaqui.repositories.BusinessRepository;
 import com.dnsouzadev.buscaqui.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,9 +24,8 @@ public class ProductService {
     private BusinessRepository businessRepository;
 
     @Transactional(readOnly = true)
-    public List<ProductDto> getAllProducts() {
-        List<ProductModel> modelList = repository.findAll();
-        return modelList.stream().map(ProductMapper::toDto).toList();
+    public Page<ProductDto> getAllProducts(Pageable pageable) {
+        return repository.findAll(pageable).map(ProductMapper::toDto);
     }
 
     @Transactional

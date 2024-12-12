@@ -6,6 +6,8 @@ import com.dnsouzadev.buscaqui.mapper.CategoryMapper;
 import com.dnsouzadev.buscaqui.models.CategoryModel;
 import com.dnsouzadev.buscaqui.repositories.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,9 +20,8 @@ public class CategoryService {
     private CategoryRepository repository;
 
     @Transactional(readOnly = true)
-    public List<CategoryDto> getAllCategories() {
-        List<CategoryModel> listCategories = repository.findAll();
-        return listCategories.stream().map(CategoryMapper::toDto).toList();
+    public Page<CategoryDto> getAllCategories(Pageable pageable) {
+        return repository.findAll(pageable).map(CategoryMapper::toDto);
     }
 
     @Transactional

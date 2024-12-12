@@ -8,6 +8,8 @@ import com.dnsouzadev.buscaqui.models.CategoryModel;
 import com.dnsouzadev.buscaqui.services.CategoryService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,8 +23,8 @@ public class CategoryController {
     private CategoryService service;
 
     @GetMapping
-    public List<CategoryDto> getAllCategories() {
-        return service.getAllCategories();
+    public Page<CategoryDto> getAllCategories(Pageable pageable) {
+        return service.getAllCategories(pageable);
     }
 
     @PostMapping
