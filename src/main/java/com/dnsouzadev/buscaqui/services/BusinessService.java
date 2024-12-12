@@ -9,6 +9,7 @@ import com.dnsouzadev.buscaqui.repositories.BusinessRepository;
 import com.dnsouzadev.buscaqui.repositories.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -21,23 +22,27 @@ public class BusinessService {
     private CategoryRepository categoryRepository;
 
 
+    @Transactional(readOnly = true)
     public List<BusinessDto> getAllBusinesses() {
         List<BusinessModel> modelList = repository.findAll();
         return modelList.stream().map(BusinessMapper::toDto).toList();
     }
 
+    @Transactional
     public BusinessModel saveBusiness(SaveBusinessDto business) {
         CategoryModel category = categoryRepository.findByName(business.category())
                 .orElseThrow(() -> new RuntimeException("Category not found: " + business.category()));
         return repository.save(BusinessMapper.toModel(business, category));
     }
 
+    @Transactional(readOnly = true)
     public BusinessDto getBusinessById(Long id) {
         BusinessModel model = repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Business not found: " + id));
         return BusinessMapper.toDto(model);
     }
 
+    @Transactional(readOnly = true)
     public BusinessDto getBusinessByName(String name) {
         BusinessModel business = repository.findByName(name);
         if (business == null) {
@@ -46,6 +51,7 @@ public class BusinessService {
         return BusinessMapper.toDto(business);
     }
 
+    @Transactional
     public BusinessModel updateBusiness(Long id, SaveBusinessDto business) {
         CategoryModel category = categoryRepository.findByName(business.category())
                 .orElseThrow(() -> new RuntimeException("Category not found: " + business.category()));
@@ -59,6 +65,7 @@ public class BusinessService {
         return repository.save(model);
     }
 
+    @Transactional
     public boolean deleteBusiness(Long id) {
         BusinessModel model = repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Business not found: " + id));

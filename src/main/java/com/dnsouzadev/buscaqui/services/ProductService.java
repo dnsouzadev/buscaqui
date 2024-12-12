@@ -9,6 +9,7 @@ import com.dnsouzadev.buscaqui.repositories.BusinessRepository;
 import com.dnsouzadev.buscaqui.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -20,25 +21,30 @@ public class ProductService {
     @Autowired
     private BusinessRepository businessRepository;
 
+    @Transactional(readOnly = true)
     public List<ProductDto> getAllProducts() {
         List<ProductModel> modelList = repository.findAll();
         return modelList.stream().map(ProductMapper::toDto).toList();
     }
 
+    @Transactional
     public ProductModel saveProduct(SaveProductDto product) {
         BusinessModel business = businessRepository.findById(product.businessId())
                 .orElseThrow(() -> new RuntimeException("Business not found"));
         return repository.save(ProductMapper.toModel(product, business));
     }
 
+    @Transactional(readOnly = true)
     public ProductDto getProductById(Long id) {
         return repository.findById(id).map(ProductMapper::toDto).orElseThrow(() -> new RuntimeException("Product not found"));
     }
 
+    @Transactional(readOnly = true)
     public ProductDto getProductByName(String name) {
         return repository.findByName(name).map(ProductMapper::toDto).orElseThrow(() -> new RuntimeException("Product not found"));
     }
 
+    @Transactional
     public ProductModel updateProduct(Long id, SaveProductDto product) {
         ProductModel productModel = repository.findById(id).orElseThrow(() -> new RuntimeException("Product not found"));
         BusinessModel business = businessRepository.findById(product.businessId())
@@ -49,6 +55,7 @@ public class ProductService {
         return repository.save(productModel);
     }
 
+    @Transactional
     public boolean deleteProduct(Long id) {
         if (repository.existsById(id)) {
             repository.deleteById(id);
