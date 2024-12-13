@@ -1,13 +1,11 @@
 package com.dnsouzadev.buscaqui.controllers;
 
-import com.dnsouzadev.buscaqui.dtos.BusinessDtos.BusinessDto;
 import com.dnsouzadev.buscaqui.dtos.CategoryDtos.CategoryDto;
 import com.dnsouzadev.buscaqui.dtos.CategoryDtos.SaveCategoryDto;
 import com.dnsouzadev.buscaqui.mapper.CategoryMapper;
 import com.dnsouzadev.buscaqui.models.CategoryModel;
 import com.dnsouzadev.buscaqui.services.CategoryService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
