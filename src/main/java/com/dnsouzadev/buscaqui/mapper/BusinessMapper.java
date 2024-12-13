@@ -16,7 +16,7 @@ public class BusinessMapper {
     }
 
     public static BusinessDto toDto(BusinessModel model) {
-        return new BusinessDto(model.getName(), model.getAddress(), model.getPhone(), model.getDeliveryFee(), model.getCategory().getName());
+        return new BusinessDto(model.getId(), model.getName(), model.getAddress(), model.getPhone(), model.getDeliveryFee(), model.getCategory().getName());
     }
 
 }

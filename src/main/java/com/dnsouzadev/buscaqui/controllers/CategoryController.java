@@ -13,23 +13,28 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.net.URI;
 
 @RestController
 @RequestMapping("/categories")
 public class CategoryController {
 
-    @Autowired
-    private CategoryService service;
+    final CategoryService service;
+
+    public CategoryController(CategoryService service) {
+        this.service = service;
+    }
 
     @GetMapping
-    public Page<CategoryDto> getAllCategories(Pageable pageable) {
-        return service.getAllCategories(pageable);
+    public ResponseEntity<Page<CategoryDto>> getAllCategories(Pageable pageable) {
+        return ResponseEntity.ok(service.getAllCategories(pageable));
     }
 
     @PostMapping
-    public CategoryModel saveCategory(@RequestBody @Valid SaveCategoryDto category) {
-        return service.saveCategory(category);
+    public ResponseEntity<CategoryDto> saveCategory(@RequestBody @Valid SaveCategoryDto category) {
+        CategoryModel model = service.saveCategory(category);
+        URI uri = URI.create("/categories/" + model.getId());
+        return ResponseEntity.created(uri).body(CategoryMapper.toDto(model));
     }
 
     @GetMapping("/{identifier}")

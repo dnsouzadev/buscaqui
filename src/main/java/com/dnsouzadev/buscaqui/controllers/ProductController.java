@@ -1,11 +1,8 @@
 package com.dnsouzadev.buscaqui.controllers;
 
-import com.dnsouzadev.buscaqui.dtos.CategoryDtos.CategoryDto;
-import com.dnsouzadev.buscaqui.dtos.CategoryDtos.SaveCategoryDto;
 import com.dnsouzadev.buscaqui.dtos.ProductDtos.ProductDto;
 import com.dnsouzadev.buscaqui.dtos.ProductDtos.SaveProductDto;
-import com.dnsouzadev.buscaqui.mapper.CategoryMapper;
-import com.dnsouzadev.buscaqui.models.CategoryModel;
+import com.dnsouzadev.buscaqui.mapper.ProductMapper;
 import com.dnsouzadev.buscaqui.models.ProductModel;
 import com.dnsouzadev.buscaqui.services.ProductService;
 import jakarta.validation.Valid;
@@ -15,23 +12,28 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.net.URI;
 
 @RestController
 @RequestMapping("/products")
 public class ProductController {
 
-    @Autowired
-    private ProductService service;
+    final ProductService service;
+
+    public ProductController (ProductService service) {
+        this.service = service;
+    }
 
     @GetMapping
-    public Page<ProductDto> getAllProducts(Pageable pageable) {
-        return service.getAllProducts(pageable);
+    public ResponseEntity<Page<ProductDto>> getAllProducts(Pageable pageable) {
+        return ResponseEntity.ok(service.getAllProducts(pageable));
     }
 
     @PostMapping
-    public ProductModel saveProduct(@RequestBody @Valid SaveProductDto product) {
-        return service.saveProduct(product);
+    public ResponseEntity<ProductDto> saveProduct(@RequestBody @Valid SaveProductDto product) {
+        ProductModel model = service.saveProduct(product);
+        URI uri = URI.create("/products/" + model.getId());
+        return ResponseEntity.created(uri).body(ProductMapper.toDto(model));
     }
 
     @GetMapping("/{identifier}")

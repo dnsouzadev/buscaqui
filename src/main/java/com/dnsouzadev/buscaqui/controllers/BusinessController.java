@@ -2,6 +2,7 @@ package com.dnsouzadev.buscaqui.controllers;
 
 import com.dnsouzadev.buscaqui.dtos.BusinessDtos.BusinessDto;
 import com.dnsouzadev.buscaqui.dtos.BusinessDtos.SaveBusinessDto;
+import com.dnsouzadev.buscaqui.mapper.BusinessMapper;
 import com.dnsouzadev.buscaqui.models.BusinessModel;
 import com.dnsouzadev.buscaqui.services.BusinessService;
 import jakarta.validation.Valid;
@@ -11,23 +12,28 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.net.URI;
 
 @RestController
 @RequestMapping("/businesses")
 public class BusinessController {
 
-    @Autowired
-    private BusinessService service;
+    final BusinessService service;
+
+    public BusinessController(BusinessService service) {
+        this.service = service;
+    }
 
     @GetMapping
-    public Page<BusinessDto> getAllBusinesses(Pageable pageable) {
-        return service.getAllBusinesses(pageable);
+    public ResponseEntity<Page<BusinessDto>> getAllBusinesses(Pageable pageable) {
+        return ResponseEntity.ok(service.getAllBusinesses(pageable));
     }
 
     @PostMapping
-    public BusinessModel saveBusiness(@RequestBody @Valid SaveBusinessDto business) {
-        return service.saveBusiness(business);
+    public ResponseEntity<BusinessDto> saveBusiness(@RequestBody @Valid SaveBusinessDto business) {
+        BusinessModel model = service.saveBusiness(business);
+        URI uri = URI.create("/businesses/" + model.getId());
+        return ResponseEntity.created(uri).body(BusinessMapper.toDto(model));
     }
 
     @GetMapping("/{identifier}")
