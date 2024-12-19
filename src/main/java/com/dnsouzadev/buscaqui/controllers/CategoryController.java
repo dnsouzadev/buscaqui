@@ -15,6 +15,7 @@ import java.net.URI;
 
 @RestController
 @RequestMapping("/categories")
+@CrossOrigin(origins = "http://localhost:4200")
 public class CategoryController {
 
     final CategoryService service;

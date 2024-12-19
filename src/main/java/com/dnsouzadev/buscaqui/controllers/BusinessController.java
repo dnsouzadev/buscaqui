@@ -16,6 +16,7 @@ import java.net.URI;
 
 @RestController
 @RequestMapping("/businesses")
+@CrossOrigin(origins = "http://localhost:4200")
 public class BusinessController {
 
     final BusinessService service;
